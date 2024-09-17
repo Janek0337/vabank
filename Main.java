@@ -7,5 +7,7 @@ public class Main {
         MenuGlowne menuGlowne = new MenuGlowne(frame);
         frame.addToFrame(menuGlowne, "menu główne");
         frame.showPanel("menu główne");
+        SetUpGry setup = new SetUpGry(frame);
+        frame.addToFrame(setup, "setup");
     }
 }

@@ -11,6 +11,7 @@ public class MenuGlowne extends JPanel {
         frame.makeButton(nowaGra, "Nowa gra", Color.yellow, buttonColor);
         frame.makeButton(zamknij, "Wyjście", Color.yellow, buttonColor);
 
+
         // ustawienie layoutu
         
         GroupLayout layout = new GroupLayout(this);
@@ -34,15 +35,13 @@ public class MenuGlowne extends JPanel {
         // słuchacze przycisków
 
         nowaGra.addActionListener(
-            (e) -> frame.showPanel("") // nazwa panelu tworzenia nowej gry
+            (e) -> frame.showPanel("setup") // nazwa panelu tworzenia nowej gry
         );
 
         zamknij.addActionListener(
             (e) -> System.exit(0)
         );
 
-        this.add(nowaGra);
-        this.add(zamknij);
         this.setVisible(true);
     }
 }

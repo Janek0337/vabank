@@ -11,6 +11,7 @@ public class Frame extends JFrame{
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(szerokosc/2, wysokosc/2);
         this.setLocationRelativeTo(null);
+        this.setTitle("Vabank");
 
         this.cardLayout = new CardLayout();
         this.cards = new JPanel(cardLayout);
@@ -20,6 +21,8 @@ public class Frame extends JFrame{
 
     public void addToFrame(JPanel panel, String nazwa){
         this.cards.add(panel, nazwa);
+        this.revalidate();
+        this.repaint();
     }
 
     public void removeFromPanel(JPanel panel){
@@ -28,6 +31,8 @@ public class Frame extends JFrame{
 
     public void showPanel(String nazwa){
         cardLayout.show(cards, nazwa);
+        cards.revalidate();
+        cards.repaint();
     }
 
     public void makeButton (JButton button, String text, Color kolorTekstu, Color kolorTla){
@@ -35,5 +40,9 @@ public class Frame extends JFrame{
         button.setBackground(kolorTla);
         button.setText(text);
         button.setVisible(true);
+    }
+
+    public void makeLabel(JLabel label, String nazwaCzcionki, int font, int size){
+        label.setFont(new Font(nazwaCzcionki, font, size));
     }
 }

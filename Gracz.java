@@ -22,4 +22,8 @@ public class Gracz {
     public String getNazwa(){
         return this.nazwa;
     }
+
+    public String toString(){
+        return this.nazwa;
+    }
 }
