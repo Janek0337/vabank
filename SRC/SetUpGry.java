@@ -1,4 +1,4 @@
-package SRC;
+package src;
 import javax.swing.*;
 import javax.swing.border.Border;
 
@@ -22,7 +22,7 @@ public class SetUpGry extends JPanel {
     JLabel napisNick = new JLabel();
     JButton adminButton = new JButton();
     JButton bazaButton = new JButton();
-    
+    JFileChooser jfc = new JFileChooser();
     
     public SetUpGry(Frame frame){
         napisInfo.setVisible(false);

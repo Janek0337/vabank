@@ -1,4 +1,4 @@
-package SRC;
+package src;
 public class Gracz {
     private String nazwa;
     private int wynik;

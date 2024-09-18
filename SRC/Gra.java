@@ -1,4 +1,4 @@
-package SRC;
+package src;
 import javax.swing.*;
 
 import java.awt.*;
@@ -7,10 +7,10 @@ import java.util.*;
 public class Gra extends JPanel {
     JButton[][] guziki = new JButton[6][5];
     String[] kategorie = new String[6];
-    HashMap guzikPytanie = new HashMap<JButton,Pytanie>();
+    HashMap<JButton,Pytanie> guzikPytanie = new HashMap<JButton,Pytanie>();
     JPanel srodek = new JPanel();
 
-    public Gra(Frame frame, DefaultListModel leaderboard){
+    public Gra(Frame frame, DefaultListModel<Gracz> leaderboard){
         
         //setup elementów
 

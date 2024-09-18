@@ -1,4 +1,4 @@
-package SRC;
+package src;
 public class Pytanie{
     private int ID;
     private int wartosc;
