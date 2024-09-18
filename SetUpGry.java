@@ -17,9 +17,14 @@ public class SetUpGry extends JPanel {
     JLabel napisLista = new JLabel("Lista graczy:");
     JButton anuluj = new JButton();
     JButton usunAll = new JButton();
+    JLabel napisInfo = new JLabel();
+    JLabel napisNick = new JLabel();
     
     
     public SetUpGry(Frame frame){
+        napisInfo.setVisible(false);
+        napisInfo.setForeground(Color.RED);
+        napisNick.setText("Wpisz nick:");
         frame.makeButton(dodaj, "Dodaj gracza", null, null);
         frame.makeButton(start, "Rozpocznij grę", getForeground(), getBackground());
         frame.makeButton(usun,  "Usuń zaznaczony", getForeground(), getBackground());
@@ -38,12 +43,21 @@ public class SetUpGry extends JPanel {
             new ActionListener() {
                 public void actionPerformed(ActionEvent e){
                     String nick = nazwa.getText();
-                    if (!nick.isEmpty()){
-                        listaGraczy.addElement(new Gracz(nick));
+                    if (nick.isEmpty()){
+                        napisInfo.setText("Nick nie może być pusty");
+                        napisInfo.setVisible(true);
+                    }
+                    else if(listaGraczy.contains(new Gracz(nick))){
+                        napisInfo.setText("Taki gracz już istnieje");
+                        napisInfo.setVisible(true);
+                    }
+                    else{
+                        napisInfo.setVisible(false);
+                        Gracz g = new Gracz(nick);
+                        listaGraczy.addElement(g);
                         nazwa.setText("");
                     }
                 }
-                
             }
         );
 
@@ -52,6 +66,11 @@ public class SetUpGry extends JPanel {
                 public void actionPerformed (ActionEvent e){
                     if(listaGraczyWidok.getSelectedIndex() != -1){
                         listaGraczy.remove(listaGraczyWidok.getSelectedIndex());
+                        napisInfo.setVisible(false);
+                    }
+                    else{
+                        napisInfo.setText("Najpierw wybierz gracza z listy");
+                        napisInfo.setVisible(true);
                     }
                 }
             }
@@ -60,7 +79,16 @@ public class SetUpGry extends JPanel {
         start.addActionListener(
             new ActionListener() {
                 public void actionPerformed(ActionEvent e){
-                    System.out.println("Gramy");
+                    if(listaGraczy.getSize() > 1){
+                        napisInfo.setVisible(false);
+                        Gra gra = new Gra(frame, listaGraczy);
+                        frame.addToFrame(gra, "gra");
+                        frame.showPanel("gra");
+                    }
+                    else{
+                        napisInfo.setText("Dodaj conajmniej 2 graczy");
+                        napisInfo.setVisible(true);
+                    }
                 }
             }
         );
@@ -68,6 +96,7 @@ public class SetUpGry extends JPanel {
         anuluj.addActionListener(
             new ActionListener(){
                 public void actionPerformed(ActionEvent e){
+                    napisInfo.setVisible(false);
                     frame.showPanel("menu główne");
                 }
             }
@@ -77,6 +106,7 @@ public class SetUpGry extends JPanel {
             new ActionListener(){
                 public void actionPerformed(ActionEvent e){
                     listaGraczy.clear();
+                    napisInfo.setVisible(false);
                 }
             }
         );
@@ -95,6 +125,8 @@ public class SetUpGry extends JPanel {
         //lewy.setBackground(Color.yellow);
         //prawy.setBackground(Color.blue);
 
+        lewy.add(Box.createRigidArea(new Dimension(10, 10)));
+        lewy.add(napisNick);
         lewy.add(Box.createRigidArea(new Dimension(10, 10)));
         lewy.add(nazwa);
         lewy.add(Box.createRigidArea(new Dimension(10, 10)));
@@ -115,33 +147,13 @@ public class SetUpGry extends JPanel {
         prawy.add(Box.createRigidArea(new Dimension(0, 10)));
         prawy.add(start);
         prawy.add(Box.createRigidArea(new Dimension(0, 10)));
+        prawy.add(napisInfo);
+        prawy.add(Box.createRigidArea(new Dimension(0, 10)));
         
         this.add(srodek,BorderLayout.CENTER);
         this.add(napisNaGorze,BorderLayout.NORTH);
-        //this.add(start,BorderLayout.NORTH);
         this.add(anuluj,BorderLayout.SOUTH);
-        
-        /*srodekLayout.setHorizontalGroup(
-            srodekLayout.createSequentialGroup()
-                .addContainerGap(10,10)
-                .addGroup(srodekLayout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                    .addComponent(lewy)
-                )
-                .addContainerGap(10,10)
-                .addComponent(prawy)
-                .addContainerGap(10,10)
-        );
 
-
-        srodekLayout.setVerticalGroup(
-            srodekLayout.createSequentialGroup()
-                .addGroup(srodekLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addComponent(lewy)
-                    .addComponent(prawy)
-                )
-        );*/ 
-        
-            
         revalidate();
         repaint();
         frame.setVisible(true);
