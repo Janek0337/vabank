@@ -7,14 +7,14 @@ import javax.naming.spi.DirStateFactory.Result;
 
 public class DBManager { 
 
-    public ArrayList<ArrayList<Pytanie>> getPytaniaKategorii(String nazwaDB, String nazwaTabeli) throws SQLException{
+    public ArrayList<ArrayList<Pytanie>> getGridPytan(String DBFilePath, String nazwaTabeli) throws SQLException{
         ArrayList<ArrayList<Pytanie>> gridPytan = new ArrayList<ArrayList<Pytanie>>();
         ArrayList<String> listaKategorii = new ArrayList<String>();
         String queryKategorie = "SELECT DISTINCT kategoria FROM " + nazwaTabeli;
         String queryPytania = "SELECT pytanie FROM " + nazwaTabeli + " WHERE kategoria = ?";
         ResultSet resPytania = null;
 
-        try (Connection con = DriverManager.getConnection("jdbc:sqlite:" + nazwaDB);
+        try (Connection con = DriverManager.getConnection("jdbc:sqlite:" + DBFilePath);
             Statement stmt = con.createStatement();
             ResultSet resKategorie = stmt.executeQuery(queryKategorie); 
             PreparedStatement pstmt = con.prepareStatement(queryPytania);      
@@ -81,7 +81,7 @@ public class DBManager {
     }
 
     //metoda wyłuskuje z wszystkich tabel w bazie danych te, które mają odpowiedni format (odpowiednie kolumny)
-    public ArrayList<String> getCorrectTableNames(String nazwaDB) throws SQLException {
+    public ArrayList<String> getCorrectTableNames(String DBFilePath) throws SQLException {
         ArrayList<String> tabele = new ArrayList<String>();
         ArrayList<String> poprawneTabele = new ArrayList<String>();
         HashMap<String, Boolean> kolumnawTabeli = new HashMap<String, Boolean>();
@@ -92,7 +92,7 @@ public class DBManager {
         kolumnawTabeli.put("kategoria", false);
 
         Connection con = null;
-        String db = "jdbc:sqlite:" + nazwaDB;
+        String db = "jdbc:sqlite:" + DBFilePath;
     
         try {
             con = DriverManager.getConnection(db);

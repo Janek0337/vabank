@@ -2,26 +2,30 @@ package src;
 import javax.swing.*;
 
 import java.awt.*;
+import java.lang.reflect.Array;
+import java.sql.SQLException;
 import java.util.*;
 
 public class Gra extends JPanel {
-    JButton[][] guziki = new JButton[6][5];
-    String[] kategorie = new String[6];
-    HashMap<JButton,Pytanie> guzikPytanie = new HashMap<JButton,Pytanie>();
+    JButton[][] guziki;
+    JLabel[] kategoriaNapis;
+    ArrayList<ArrayList<Pytanie>> pytania;
     JPanel srodek = new JPanel();
 
-    public Gra(Frame frame, DefaultListModel<Gracz> leaderboard){
+    public Gra(Frame frame, DefaultListModel<Gracz> leaderboard, DBManager db ,String FilePath, String nazwaTablicy){
         
         //setup elementów
 
-        for(int i = 0; i < 6; i++){
-            for(int j = 0; j < 5; j++){
-                guziki[i][j] = new JButton("" + 100*(j+1));
-            }
+        try{
+            ArrayList<ArrayList<Pytanie>> pytania = db.getGridPytan(FilePath, nazwaTablicy);
+        } catch (SQLException e){
+            e.printStackTrace();
+            frame.showPanel("menu główne");
         }
 
-        for(int i = 0; i < 6; i++){
-            
+        JLabel[] kategoriaNapis = new JLabel[pytania.size()];
+        for(int i = 0; i < pytania.size(); i++){
+            kategoriaNapis[i] = new JLabel(pytania.get(i).get(0).getKategoria());
         }
         
         //layout
@@ -29,7 +33,7 @@ public class Gra extends JPanel {
 
         //layout środka
 
-        srodek.setLayout(new GridLayout(6,6));
+        srodek.setLayout(new GridLayout(0,0));
         
 
 

@@ -1,7 +1,8 @@
 package src;
 import javax.swing.*;
 import javax.swing.border.Border;
-
+import java.io.*;
+import java.sql.SQLException;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.*;
@@ -23,11 +24,21 @@ public class SetUpGry extends JPanel {
     JButton adminButton = new JButton();
     JButton bazaButton = new JButton();
     JFileChooser jfc = new JFileChooser();
+    String DBFilePath;
+    String tablica;
+    JComboBox<String> wyborTabeli = new JComboBox<String>();
+    ArrayList<String> tabele;
     
     public SetUpGry(Frame frame){
+        DBManager dbmgng = new DBManager();
+
         napisInfo.setVisible(false);
         napisInfo.setForeground(Color.RED);
         napisNick.setText("Wpisz nick:");
+        wyborTabeli.setMaximumSize(new Dimension(200,30));
+        wyborTabeli.addItem("Siema eniu");
+        wyborTabeli.addItem("Dotykam małe rumuńskie dzieci");
+        wyborTabeli.setAlignmentX(Component.LEFT_ALIGNMENT);
         frame.makeButton(bazaButton,"Wybierz pytania" , getForeground(), getBackground());
         frame.makeButton(dodaj, "Dodaj gracza", null, null);
         frame.makeButton(start, "Rozpocznij grę", getForeground(), getBackground());
@@ -41,7 +52,12 @@ public class SetUpGry extends JPanel {
         listaGraczyWidok.setVisibleRowCount(10);
         napisNaGorze.setHorizontalAlignment(SwingConstants.CENTER);
         frame.makeButton(adminButton, "adminButton", getForeground(), getBackground());
+        JLabel zestawNapis = new JLabel("Wybierz zestaw pytań:");
+        zestawNapis.setVisible(false);
+        wyborTabeli.setVisible(false);
 
+        JLabel wybranyPlik = new JLabel("Wybrany plik:\n");
+        wybranyPlik.setVisible(false);
         // listenerzy
 
         dodaj.addActionListener(
@@ -86,7 +102,7 @@ public class SetUpGry extends JPanel {
                 public void actionPerformed(ActionEvent e){
                     if(listaGraczy.getSize() > 1){
                         napisInfo.setVisible(false);
-                        Gra gra = new Gra(frame, listaGraczy);
+                        Gra gra = new Gra(frame, listaGraczy, dbmgng, DBFilePath, tablica);
                         frame.addToFrame(gra, "gra");
                         frame.showPanel("gra");
                     }
@@ -119,7 +135,38 @@ public class SetUpGry extends JPanel {
         bazaButton.addActionListener(
             new ActionListener() {
                 public void actionPerformed(ActionEvent e){
-                    
+                    int result = jfc.showOpenDialog(null);
+                    jfc.setCurrentDirectory(new File("../bazyPytan"));
+                    if(result == JFileChooser.APPROVE_OPTION){
+                        File bazaDanych = jfc.getSelectedFile();
+                        DBFilePath = bazaDanych.getAbsolutePath();
+                        wybranyPlik.setVisible(true);
+                        wybranyPlik.setText("Wybrany plik: \"" + bazaDanych.getName() + "\"");
+                        
+                        if(!bazaDanych.getName().endsWith(".db")){
+                            napisInfo.setVisible(true);
+                            napisInfo.setText("Zły format pliku; oczekiwany \".db\"");
+                        }
+                        else{
+                            zestawNapis.setVisible(true);
+                            wyborTabeli.setVisible(true);
+                            try{
+                            tabele = dbmgng.getCorrectTableNames(DBFilePath);
+                            String[] tabelki = new String[tabele.size()];
+                            for(int i = 0; i < tabele.size(); i++){
+                                tabelki[i] = tabele.get(i);
+                            }
+                            
+                            for(String el : tabelki){
+                                wyborTabeli.addItem(el);
+                            }
+
+                            } catch (SQLException ex){
+                                ex.printStackTrace();
+                                frame.showPanel("menu główne");
+                            }
+                        }
+                    }
                 }
             }
         );
@@ -130,6 +177,14 @@ public class SetUpGry extends JPanel {
                     listaGraczy.addElement(new Gracz("Bolek"));
                     listaGraczy.addElement(new Gracz("Lolek"));
                     start.doClick();
+                }
+            }
+        );
+
+        wyborTabeli.addActionListener(
+            new ActionListener() {
+                public void actionPerformed(ActionEvent e){
+                    tablica = (String) wyborTabeli.getSelectedItem();
                 }
             }
         );
@@ -156,13 +211,14 @@ public class SetUpGry extends JPanel {
         lewy.add(Box.createRigidArea(new Dimension(10, 10)));
         lewy.add(dodaj);
         lewy.add(Box.createRigidArea(new Dimension(0, 10)));
-        lewy.add(usun);
-        lewy.add(Box.createRigidArea(new Dimension(0, 10)));
-        lewy.add(usunAll);
-        lewy.add(Box.createRigidArea(new Dimension(0, 10)));
         lewy.add(bazaButton);
         lewy.add(Box.createRigidArea(new Dimension(0, 10)));
-        lewy.add(anuluj);
+        lewy.add(wybranyPlik);
+        lewy.add(Box.createRigidArea(new Dimension(0, 10)));
+        lewy.add(Box.createRigidArea(new Dimension(0, 10)));
+        lewy.add(zestawNapis);
+        lewy.add(Box.createRigidArea(new Dimension(0, 10)));
+        lewy.add(wyborTabeli);
         lewy.add(Box.createRigidArea(new Dimension(0, 10)));
         
         prawy.add(Box.createRigidArea(new Dimension(10, 10)));
@@ -173,6 +229,10 @@ public class SetUpGry extends JPanel {
         prawy.add(listaGraczyWidok);
         listaGraczyWidok.setAlignmentX(Component.LEFT_ALIGNMENT);
         prawy.add(Box.createRigidArea(new Dimension(0, 10)));
+        prawy.add(usun);
+        prawy.add(Box.createRigidArea(new Dimension(0, 10)));
+        prawy.add(usunAll);
+        prawy.add(Box.createRigidArea(new Dimension(0, 10)));
         prawy.add(start);
         prawy.add(Box.createRigidArea(new Dimension(0, 10)));
         prawy.add(adminButton);
@@ -182,7 +242,7 @@ public class SetUpGry extends JPanel {
         
         this.add(srodek,BorderLayout.CENTER);
         this.add(napisNaGorze,BorderLayout.NORTH);
-        //this.add(anuluj,BorderLayout.SOUTH);
+        this.add(anuluj,BorderLayout.SOUTH);
 
         revalidate();
         repaint();
