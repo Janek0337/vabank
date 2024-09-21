@@ -7,11 +7,11 @@ import javax.naming.spi.DirStateFactory.Result;
 
 public class DBManager { 
 
-    public ArrayList<ArrayList<Pytanie>> getGridPytan(String DBFilePath, String nazwaTabeli) throws SQLException{
+    public ArrayList<ArrayList<Pytanie>> getGridPytan(String DBFilePath, String nazwaTabeli){
         ArrayList<ArrayList<Pytanie>> gridPytan = new ArrayList<ArrayList<Pytanie>>();
         ArrayList<String> listaKategorii = new ArrayList<String>();
         String queryKategorie = "SELECT DISTINCT kategoria FROM " + nazwaTabeli;
-        String queryPytania = "SELECT pytanie FROM " + nazwaTabeli + " WHERE kategoria = ?";
+        String queryPytania = "SELECT id, wartosc, pytanie, odpowiedz, kategoria FROM " + nazwaTabeli + " WHERE kategoria = ?";
         ResultSet resPytania = null;
 
         try (Connection con = DriverManager.getConnection("jdbc:sqlite:" + DBFilePath);
@@ -31,11 +31,11 @@ public class DBManager {
                 ArrayList<Pytanie> tePytania = new ArrayList<Pytanie>();
                 
                 while(resPytania.next()){
-                    String taTresc = resPytania.getString("tresc");
-                    String taOdp = resPytania.getString("odpowiedz");
-                    int toID = resPytania.getInt("ID");
+                    String taTresc = resPytania.getString("pytanie");
+                    int toID = resPytania.getInt("id");
                     String taKategoria = resPytania.getString("kategoria");
                     int taWartosc = resPytania.getInt("wartosc");
+                    String taOdp = resPytania.getString("odpowiedz");
                     tePytania.add(new Pytanie(taTresc, taOdp, toID, taKategoria, taWartosc));
                 }
                 gridPytan.add(tePytania);

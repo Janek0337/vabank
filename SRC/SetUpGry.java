@@ -36,8 +36,6 @@ public class SetUpGry extends JPanel {
         napisInfo.setForeground(Color.RED);
         napisNick.setText("Wpisz nick:");
         wyborTabeli.setMaximumSize(new Dimension(200,30));
-        wyborTabeli.addItem("Siema eniu");
-        wyborTabeli.addItem("Dotykam małe rumuńskie dzieci");
         wyborTabeli.setAlignmentX(Component.LEFT_ALIGNMENT);
         frame.makeButton(bazaButton,"Wybierz pytania" , getForeground(), getBackground());
         frame.makeButton(dodaj, "Dodaj gracza", null, null);
