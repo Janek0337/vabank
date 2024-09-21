@@ -5,20 +5,55 @@ import java.util.*;
 
 import javax.naming.spi.DirStateFactory.Result;
 
-public class DBManager {
-    public void wczytajTabliceGry(String nazwaDB, String[][] pytania, String[] kateogire){
-        Connection con = null;
-        String db = "jdbc:sqlite:" + nazwaDB;
-        try {
-            con = DriverManager.getConnection(db);
-            for(int i = 0; i < 6; i++){
+public class DBManager { 
 
+    public ArrayList<ArrayList<Pytanie>> getPytaniaKategorii(String nazwaDB, String nazwaTabeli) throws SQLException{
+        ArrayList<ArrayList<Pytanie>> gridPytan = new ArrayList<ArrayList<Pytanie>>();
+        ArrayList<String> listaKategorii = new ArrayList<String>();
+        String queryKategorie = "SELECT DISTINCT kategoria FROM " + nazwaTabeli;
+        String queryPytania = "SELECT pytanie FROM " + nazwaTabeli + " WHERE kategoria = ?";
+        ResultSet resPytania = null;
+
+        try (Connection con = DriverManager.getConnection("jdbc:sqlite:" + nazwaDB);
+            Statement stmt = con.createStatement();
+            ResultSet resKategorie = stmt.executeQuery(queryKategorie); 
+            PreparedStatement pstmt = con.prepareStatement(queryPytania);      
+            ) {
+
+
+            while (resKategorie.next()){
+                listaKategorii.add(resKategorie.getString("kategoria"));
+            }
+
+            for(int i = 0; i < listaKategorii.size(); i++){
+                pstmt.setString(1, listaKategorii.get(i));
+                resPytania = pstmt.executeQuery();
+                ArrayList<Pytanie> tePytania = new ArrayList<Pytanie>();
+                
+                while(resPytania.next()){
+                    String taTresc = resPytania.getString("tresc");
+                    String taOdp = resPytania.getString("odpowiedz");
+                    int toID = resPytania.getInt("ID");
+                    String taKategoria = resPytania.getString("kategoria");
+                    int taWartosc = resPytania.getInt("wartosc");
+                    tePytania.add(new Pytanie(taTresc, taOdp, toID, taKategoria, taWartosc));
+                }
+                gridPytan.add(tePytania);
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            try{
+                if(resPytania != null){
+                    resPytania.close();
+                }
+            } catch(SQLException e){
+                e.printStackTrace();
+            }
         }
-    }    
+        return gridPytan;
+    }
 
     private void setFalse(HashMap<String, Boolean> mapa){
         for(Map.Entry<String, Boolean> entry : mapa.entrySet()){
@@ -54,8 +89,8 @@ public class DBManager {
         kolumnawTabeli.put("wartosc", false);
         kolumnawTabeli.put("pytanie", false);
         kolumnawTabeli.put("odpowiedz", false);
-        kolumnawTabeli.put("kolumna", false);
-        kolumnawTabeli.put("wiersz", false);
+        kolumnawTabeli.put("kategoria", false);
+
         Connection con = null;
         String db = "jdbc:sqlite:" + nazwaDB;
     
@@ -98,46 +133,5 @@ public class DBManager {
         }
     
         return poprawneTabele;
-    }
-
-    public Pytanie getPytanieIndx(Connection con, int wiersz, int kolumna, String nazwaTabeli) throws SQLException {
-        Pytanie p = new Pytanie();
-        int id = -1;
-        String pytanie = "";
-        String odpowiedz = "";
-        int wartosc = -1; 
-
-        String query = "SELECT * FROM " + nazwaTabeli + " WHERE wiersz = ? AND kolumna = ?";
-
-        try{
-            PreparedStatement pstmt = con.prepareStatement(query);
-            pstmt.setInt(1, wiersz);
-            pstmt.setInt(2, kolumna);
-
-            ResultSet rs = pstmt.executeQuery(query);
-            while(rs.next()){
-                pytanie = rs.getString("pytanie");
-                odpowiedz = rs.getString("odpowiedz");
-                id = rs.getInt("id");
-                wartosc = rs.getInt("wartosc");
-            }
-            rs.close();
-            pstmt.close();
-            
-        } catch (SQLException e){
-            System.err.printf("Nie udało się wykonać zapytania: \"%s\"\n", query);
-        }
-
-        if (id == -1 || pytanie.equals("") || wartosc == -1){
-            p.setTresc("Nie udało się poprawnie wczytać pytania; Spróbuj ponownie");    
-        }
-        else{
-            p.setID(id);
-            p.setOdpowiedz(odpowiedz);
-            p.setTresc(pytanie);
-            p.setWartosc(wartosc);
-        }
-
-        return p;
     }
 }

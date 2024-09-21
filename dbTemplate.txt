@@ -4,10 +4,5 @@ CREATE TABLE bazaVabanku (
     pytanie   NVARCHAR (200) NOT NULL,
     odpowiedz NVARCHAR (200) NOT NULL
                              DEFAULT "",
-    kolumna   INTEGER        NOT NULL,
-    wiersz    INTEGER        NOT NULL,
-    UNIQUE (
-        wiersz,
-        kolumna
-    )
+    kategoria NVARCHAR(200) NOT NULL,
 );
