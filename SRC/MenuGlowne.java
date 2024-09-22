@@ -2,6 +2,7 @@ package src;
 import javax.swing.*;
 
 import java.awt.*;
+import java.awt.event.*;
 
 public class MenuGlowne extends JPanel {
     JButton nowaGra = new JButton();
@@ -37,7 +38,11 @@ public class MenuGlowne extends JPanel {
         // słuchacze przycisków
 
         nowaGra.addActionListener(
-            (e) -> frame.showPanel("setup") // nazwa panelu tworzenia nowej gry
+            new ActionListener() {
+                public void actionPerformed(ActionEvent e){
+                    frame.showPanel("setup");
+                }    
+            }
         );
 
         zamknij.addActionListener(

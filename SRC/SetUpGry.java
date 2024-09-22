@@ -28,6 +28,7 @@ public class SetUpGry extends JPanel {
     String tablica;
     JComboBox<String> wyborTabeli = new JComboBox<String>();
     ArrayList<String> tabele;
+    File bazaDanych = null;
     
     public SetUpGry(Frame frame){
         DBManager dbmgng = new DBManager();
@@ -55,7 +56,7 @@ public class SetUpGry extends JPanel {
         wyborTabeli.setVisible(false);
 
         JLabel wybranyPlik = new JLabel("Wybrany plik:\n");
-        wybranyPlik.setVisible(false);
+        wybranyPlik.setText("Brak wybranej bazy pytań");
         // listenerzy
 
         dodaj.addActionListener(
@@ -98,15 +99,23 @@ public class SetUpGry extends JPanel {
         start.addActionListener(
             new ActionListener() {
                 public void actionPerformed(ActionEvent e){
-                    if(listaGraczy.getSize() > 1){
+                    if (listaGraczy.getSize() < 2){
+                        napisInfo.setText("Dodaj conajmniej 2 graczy");
+                        napisInfo.setVisible(true);
+                    }
+                    else if (bazaDanych == null){
+                        napisInfo.setText("Wybierz bazę danych z pytaniami");
+                        napisInfo.setVisible(true);
+                    }
+                    else if (wyborTabeli.getSelectedIndex() == -1){
+                        napisInfo.setText("Brak odpowiednich zestawów w danej bazie");
+                        napisInfo.setVisible(true);
+                    }
+                    else{
                         napisInfo.setVisible(false);
                         Gra gra = new Gra(frame, listaGraczy, dbmgng, DBFilePath, tablica);
                         frame.addToFrame(gra, "gra");
                         frame.showPanel("gra");
-                    }
-                    else{
-                        napisInfo.setText("Dodaj conajmniej 2 graczy");
-                        napisInfo.setVisible(true);
                     }
                 }
             }
@@ -136,7 +145,8 @@ public class SetUpGry extends JPanel {
                     int result = jfc.showOpenDialog(null);
                     jfc.setCurrentDirectory(new File("../bazyPytan"));
                     if(result == JFileChooser.APPROVE_OPTION){
-                        File bazaDanych = jfc.getSelectedFile();
+                        wyborTabeli.removeAllItems();
+                        bazaDanych = jfc.getSelectedFile();
                         DBFilePath = bazaDanych.getAbsolutePath();
                         wybranyPlik.setVisible(true);
                         wybranyPlik.setText("Wybrany plik: \"" + bazaDanych.getName() + "\"");

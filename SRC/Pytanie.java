@@ -58,4 +58,13 @@ public class Pytanie{
         return this.kategoria;
     }
 
+    public int hashCode(){
+        int hash = this.ID;
+        hash *= this.wartosc;
+        hash *= this.kategoria.hashCode();
+        hash *= this.tresc.hashCode();
+        hash *= this.odpowiedz.hashCode();
+        return hash;
+    }
+
 }
