@@ -5,6 +5,7 @@ public class Pytanie{
     private String tresc;
     private String odpowiedz;
     private String kategoria;
+    private boolean odpowiedziane;
 
     public Pytanie(){
         
@@ -16,6 +17,15 @@ public class Pytanie{
         this.setKategoria(kategoria);
         this.setOdpowiedz(odpowiedz);
         this.setTresc(tresc);
+        this.setOdpowiedziane(false);
+    }
+
+    public void setOdpowiedziane(boolean czy){
+        this.odpowiedziane = czy;
+    }
+
+    public boolean getOdpowiedziane(){
+        return this.odpowiedziane;
     }
 
     public void setWartosc(int wartosc){

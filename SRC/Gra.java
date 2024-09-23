@@ -2,9 +2,11 @@ package src;
 import javax.swing.*;
 
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.lang.reflect.Array;
 import java.sql.SQLException;
 import java.util.*;
+import java.awt.event.*;
 
 public class Gra extends JPanel {
     JButton[][] guziki;
@@ -13,9 +15,10 @@ public class Gra extends JPanel {
     JPanel srodek = new JPanel();
 
     public Gra(Frame frame, DefaultListModel<Gracz> leaderboard, DBManager db, String FilePath, String nazwaTablicy){
-        
+        BiHashMap<Pytanie, JButton> pytanieGuzik = new BiHashMap<Pytanie, JButton>();
         ArrayList<ArrayList<Pytanie>> pytania = db.getGridPytan(FilePath, nazwaTablicy);
-        HashMap<JButton, Pytanie> pytanieGuzik = new HashMap<JButton, Pytanie>();
+        JButton adminButton2 = new JButton("admin2");
+        this.add(adminButton2,BorderLayout.SOUTH);
         //layout
         BorderLayout layout = new BorderLayout();
         this.setLayout(layout);
@@ -34,7 +37,16 @@ public class Gra extends JPanel {
         for(int i = 0; i < pytania.get(0).size(); i++){
             for(int j = 0; j < pytania.size(); j++){
                 JButton guzik = new JButton("" + pytania.get(j).get(i).getWartosc());
-                pytanieGuzik.put(guzik, pytania.get(j).get(i));
+                pytanieGuzik.put(pytania.get(j).get(i), guzik);
+                guzik.addActionListener(
+                    new ActionListener() {
+                        public void actionPerformed(ActionEvent e){
+                            WidokPytania pyt = new WidokPytania(frame, pytanieGuzik.getKey(guzik), leaderboard, pytanieGuzik);
+                            frame.addToFrame(pyt, "pytanie");
+                            frame.showPanel("pytanie");
+                        }   
+                    }
+                );
                 srodek.add(guzik);
             }
         }
