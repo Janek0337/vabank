@@ -3,8 +3,6 @@ package src;
 import java.sql.*;
 import java.util.*;
 
-import javax.naming.spi.DirStateFactory.Result;
-
 public class DBManager { 
 
     public ArrayList<ArrayList<Pytanie>> getGridPytan(String DBFilePath, String nazwaTabeli){
@@ -71,7 +69,6 @@ public class DBManager {
     }
 
     private boolean czyWszystkieTrue(HashMap<String, Boolean> mapa){
-        boolean flaga = true;
         for(Map.Entry<String, Boolean> entry : mapa.entrySet()){
             if(!entry.getValue()){
                 return false;

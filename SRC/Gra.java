@@ -3,8 +3,6 @@ import javax.swing.*;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.lang.reflect.Array;
-import java.sql.SQLException;
 import java.util.*;
 import java.awt.event.*;
 
@@ -19,6 +17,7 @@ public class Gra extends JPanel {
         ArrayList<ArrayList<Pytanie>> pytania = db.getGridPytan(FilePath, nazwaTablicy);
         JButton adminButton2 = new JButton("admin2");
         this.add(adminButton2,BorderLayout.SOUTH);
+
         //layout
         BorderLayout layout = new BorderLayout();
         this.setLayout(layout);

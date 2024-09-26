@@ -1,6 +1,5 @@
 package src;
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.io.*;
 import java.sql.SQLException;
 import java.awt.*;
