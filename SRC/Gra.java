@@ -7,15 +7,13 @@ import java.awt.event.*;
 
 
 public class Gra extends JPanel {
-    JButton[][] guziki;
-    HashMap<JButton, Pytanie> pytanieGuzik;
     ArrayList<ArrayList<Pytanie>> pytania;
-    JPanel srodek = new JPanel();
-    JButton odblokujPyt = new JButton();
-    JButton zakoncz = new JButton();
-    leaderboard prawyLeaderboard;
+    private leaderboard prawyLeaderboard;
 
     public Gra(Frame frame, DefaultListModel<Gracz> leaderboard, DBManager db, String FilePath, String nazwaTablicy){
+        JPanel srodek = new JPanel();
+        JButton odblokujPyt = new JButton();
+        JButton zakoncz = new JButton();
         BiHashMap<Pytanie, JButton> pytanieGuzik = new BiHashMap<Pytanie, JButton>();
         this.prawyLeaderboard = new leaderboard(leaderboard, true);
         this.pytania = db.getGridPytan(FilePath, nazwaTablicy);

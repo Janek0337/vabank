@@ -8,30 +8,31 @@ import java.util.*;
 import java.awt.event.ActionEvent;
 
 public class SetUpGry extends JPanel {
-    JButton start = new JButton();
-    JButton dodaj = new JButton();
-    JButton usun = new JButton();
-    JTextField nazwa = new JTextField(30);
-    DefaultListModel<Gracz> listaGraczy = new DefaultListModel<Gracz>();
-    JList<Gracz> listaGraczyWidok = new JList<Gracz>(listaGraczy);
-    JLabel napisNaGorze = new JLabel("<html><font size = '7'>Nowa Gra</font></html>");
-    JLabel napisLista = new JLabel("<html><font size = '4'>Lista graczy:</font></html>");
-    JButton anuluj = new JButton();
-    JButton usunAll = new JButton();
-    JLabel napisInfo = new JLabel();
-    JLabel napisNick = new JLabel();
-    JButton adminButton = new JButton();
-    JButton bazaButton = new JButton();
-    JFileChooser jfc = new JFileChooser();
-    String DBFilePath;
-    String tablica;
-    JComboBox<String> wyborTabeli = new JComboBox<String>();
-    ArrayList<String> tabele;
-    File bazaDanych = null;
+    private JButton start = new JButton();
+    private JButton dodaj = new JButton();
+    private JButton usun = new JButton();
+    private JTextField nazwa = new JTextField(30);
+    private DefaultListModel<Gracz> listaGraczy = new DefaultListModel<Gracz>();
+    private JList<Gracz> listaGraczyWidok = new JList<Gracz>(listaGraczy);
+    private JLabel napisNaGorze = new JLabel("<html><font size = '7'>Nowa Gra</font></html>");
+    private JLabel napisLista = new JLabel("<html><font size = '4'>Lista graczy:</font></html>");
+    private JButton anuluj = new JButton();
+    private JButton usunAll = new JButton();
+    private JLabel napisInfo = new JLabel();
+    private JLabel napisNick = new JLabel();
+    private JButton adminButton = new JButton();
+    private JButton bazaButton = new JButton();
+    private JFileChooser jfc = new JFileChooser();
+    private String DBFilePath;
+    private String tablica;
+    private JComboBox<String> wyborTabeli = new JComboBox<String>();
+    private ArrayList<String> tabele;
+    private File bazaDanych = null;
+    private DBManager dbmgng = new DBManager();
+    private JLabel zestawNapis = new JLabel("Wybierz zestaw pytań:");
+    private JLabel wybranyPlik = new JLabel("Wybrany plik: ");
     
     public SetUpGry(Frame frame){
-        DBManager dbmgng = new DBManager();
-
         napisInfo.setVisible(false);
         napisInfo.setForeground(Color.RED);
         napisNick.setText("<html><font size = '4'>Wpisz nick:</font></html>");
@@ -45,16 +46,15 @@ public class SetUpGry extends JPanel {
         listaGraczyWidok.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         nazwa.setColumns(40);
         nazwa.setMaximumSize(new Dimension(400,30));
-        //frame.makeLabel(napisNaGorze, "Arial", Font.BOLD, 24);
         frame.makeButton(anuluj, "Anuluj", getForeground(), getBackground(),14);
         listaGraczyWidok.setVisibleRowCount(10);
         napisNaGorze.setHorizontalAlignment(SwingConstants.CENTER);
         frame.makeButton(adminButton, "adminButton", getForeground(), getBackground(),14);
-        JLabel zestawNapis = new JLabel("Wybierz zestaw pytań:");
+
         zestawNapis.setVisible(false);
         wyborTabeli.setVisible(false);
 
-        JLabel wybranyPlik = new JLabel("Wybrany plik: ");
+;
         wybranyPlik.setText("Brak wybranej bazy pytań");
         // listenerzy
 

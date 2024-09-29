@@ -1,32 +1,31 @@
 package src;
-import java.util.*;
+
 import java.awt.*;
 import java.awt.event.*;
-
 import javax.swing.*;
-import javax.swing.border.Border;
+
 
 public class WidokPytania extends JPanel{
-    JLabel infoGora = new JLabel();
-    JLabel trescPytania = new JLabel();
-    JLabel odpowiedz = new JLabel();
-    JComboBox<Gracz> wyborOdpowiadajacego = new JComboBox<Gracz>();
-    JCheckBox dobrze = new JCheckBox("Dobrze?");
-    JButton pokazOdp = new JButton();
-    JButton ukryjOdp = new JButton();
-    JButton wroc = new JButton();
-    JButton zakonczPyt = new JButton();
-    JLabel odpowiada = new JLabel("Odpowiada:");
-    JButton submitOdp = new JButton();
-    leaderboard leaderboard;
+    private JLabel infoGora = new JLabel();
+    private JLabel trescPytania = new JLabel();
+    private JLabel odpowiedz = new JLabel();
+    private JComboBox<Gracz> wyborOdpowiadajacego = new JComboBox<Gracz>();
+    private JCheckBox dobrze = new JCheckBox("Dobrze?");
+    private JButton pokazOdp = new JButton();
+    private JButton ukryjOdp = new JButton();
+    private JButton wroc = new JButton();
+    private JButton zakonczPyt = new JButton();
+    private JLabel odpowiada = new JLabel("Odpowiada:");
+    private JButton submitOdp = new JButton();
+    private JLabel odpowiedzLabel = new JLabel("<html><i>Odpowiedź:</i></html>");
+    private Font foncik = new Font("Arial", Font.ROMAN_BASELINE, 26);
+    private Font foncik2 = new Font("Arial", Font.PLAIN, 18);
+    private JLabel pytanieLabel = new JLabel("<html><i>Pytanie:</i></html>");
+    private leaderboard leaderboard;
 
     public WidokPytania(Frame frame, Pytanie p, DefaultListModel<Gracz> listaGraczy, BiHashMap<Pytanie, JButton> mapa){
-        Font foncik = new Font("Arial", Font.ROMAN_BASELINE, 26);
-        Font foncik2 = new Font("Arial", Font.PLAIN, 18);
-        leaderboard leaderboard = new leaderboard(listaGraczy, true);
-        JLabel pytanieLabel = new JLabel("<html><i>Pytanie:</i></html>");
+        leaderboard = new leaderboard(listaGraczy, true);
         pytanieLabel.setFont(foncik);
-        JLabel odpowiedzLabel = new JLabel("<html><i>Odpowiedź:</i></html>");
         odpowiedzLabel.setFont(foncik);
         odpowiedz.setVisible(false);
         odpowiedzLabel.setVisible(false);

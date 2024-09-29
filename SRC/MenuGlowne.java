@@ -1,16 +1,16 @@
 package src;
-import javax.swing.*;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
 public class MenuGlowne extends JPanel {
-    JButton nowaGra = new JButton();
-    JButton zamknij = new JButton();
-    Color buttonColor = new Color(57,124,210);
+
+    private Color buttonColor = new Color(57,124,210);
 
     MenuGlowne(Frame frame){
-        
+        JButton nowaGra = new JButton();
+        JButton zamknij = new JButton();
         frame.makeButton(nowaGra, "Nowa gra", Color.yellow, buttonColor,14);
         frame.makeButton(zamknij, "Wyjście", Color.yellow, buttonColor,14);
 
