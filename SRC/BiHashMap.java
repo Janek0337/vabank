@@ -36,4 +36,8 @@ public class BiHashMap<K, V> {
         mapaK.clear();
         mapaV.clear();
     }
+
+    public Iterator<Map.Entry<K, V>> getIterator(){
+        return mapaK.entrySet().iterator();
+    }
 }

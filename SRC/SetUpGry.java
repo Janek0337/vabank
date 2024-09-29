@@ -14,8 +14,8 @@ public class SetUpGry extends JPanel {
     JTextField nazwa = new JTextField(30);
     DefaultListModel<Gracz> listaGraczy = new DefaultListModel<Gracz>();
     JList<Gracz> listaGraczyWidok = new JList<Gracz>(listaGraczy);
-    JLabel napisNaGorze = new JLabel("Nowa Gra");
-    JLabel napisLista = new JLabel("Lista graczy:");
+    JLabel napisNaGorze = new JLabel("<html><font size = '7'>Nowa Gra</font></html>");
+    JLabel napisLista = new JLabel("<html><font size = '4'>Lista graczy:</font></html>");
     JButton anuluj = new JButton();
     JButton usunAll = new JButton();
     JLabel napisInfo = new JLabel();
@@ -34,27 +34,27 @@ public class SetUpGry extends JPanel {
 
         napisInfo.setVisible(false);
         napisInfo.setForeground(Color.RED);
-        napisNick.setText("Wpisz nick:");
+        napisNick.setText("<html><font size = '4'>Wpisz nick:</font></html>");
         wyborTabeli.setMaximumSize(new Dimension(200,30));
         wyborTabeli.setAlignmentX(Component.LEFT_ALIGNMENT);
-        frame.makeButton(bazaButton,"Wybierz pytania" , getForeground(), getBackground());
-        frame.makeButton(dodaj, "Dodaj gracza", null, null);
-        frame.makeButton(start, "Rozpocznij grę", getForeground(), getBackground());
-        frame.makeButton(usun,  "Usuń zaznaczony", getForeground(), getBackground());
-        frame.makeButton(usunAll, "Wyczyść listę", getForeground(), getBackground());
+        frame.makeButton(bazaButton,"Wybierz pytania" , getForeground(), getBackground(),14);
+        frame.makeButton(dodaj, "Dodaj gracza", null, null,14);
+        frame.makeButton(start, "Rozpocznij grę", getForeground(), getBackground(),14);
+        frame.makeButton(usun,  "Usuń zaznaczony", getForeground(), getBackground(),14);
+        frame.makeButton(usunAll, "Wyczyść listę", getForeground(), getBackground(),14);
         listaGraczyWidok.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         nazwa.setColumns(40);
         nazwa.setMaximumSize(new Dimension(400,30));
-        frame.makeLabel(napisNaGorze, "Arial", Font.BOLD, 24);
-        frame.makeButton(anuluj, "Anuluj", getForeground(), getBackground());
+        //frame.makeLabel(napisNaGorze, "Arial", Font.BOLD, 24);
+        frame.makeButton(anuluj, "Anuluj", getForeground(), getBackground(),14);
         listaGraczyWidok.setVisibleRowCount(10);
         napisNaGorze.setHorizontalAlignment(SwingConstants.CENTER);
-        frame.makeButton(adminButton, "adminButton", getForeground(), getBackground());
+        frame.makeButton(adminButton, "adminButton", getForeground(), getBackground(),14);
         JLabel zestawNapis = new JLabel("Wybierz zestaw pytań:");
         zestawNapis.setVisible(false);
         wyborTabeli.setVisible(false);
 
-        JLabel wybranyPlik = new JLabel("Wybrany plik:\n");
+        JLabel wybranyPlik = new JLabel("Wybrany plik: ");
         wybranyPlik.setText("Brak wybranej bazy pytań");
         // listenerzy
 

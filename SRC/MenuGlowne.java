@@ -11,8 +11,8 @@ public class MenuGlowne extends JPanel {
 
     MenuGlowne(Frame frame){
         
-        frame.makeButton(nowaGra, "Nowa gra", Color.yellow, buttonColor);
-        frame.makeButton(zamknij, "Wyjście", Color.yellow, buttonColor);
+        frame.makeButton(nowaGra, "Nowa gra", Color.yellow, buttonColor,14);
+        frame.makeButton(zamknij, "Wyjście", Color.yellow, buttonColor,14);
 
 
         // ustawienie layoutu

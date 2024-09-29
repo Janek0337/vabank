@@ -22,6 +22,7 @@ public class Frame extends JFrame{
 
     public void addToFrame(JPanel panel, String nazwa){
         this.cards.add(panel, nazwa);
+        panel.setName(nazwa);
         this.revalidate();
         this.repaint();
     }
@@ -36,11 +37,21 @@ public class Frame extends JFrame{
         cards.repaint();
     }
 
-    public void makeButton (JButton button, String text, Color kolorTekstu, Color kolorTla){
+    public JPanel getPanel(String nazwa){
+        for(Component c : cards.getComponents()){
+            if(nazwa != null && c instanceof JPanel && nazwa.equals(c.getName())){
+                return (JPanel)c;
+            }
+        }
+        return null;
+    }
+
+    public void makeButton (JButton button, String text, Color kolorTekstu, Color kolorTla, int rozmiar){
         button.setForeground(kolorTekstu);
         button.setBackground(kolorTla);
         button.setText(text);
         button.setVisible(true);
+        button.setFont(new Font("Arial", Font.BOLD, rozmiar));
     }
 
     public void makeLabel(JLabel label, String nazwaCzcionki, int font, int size){
