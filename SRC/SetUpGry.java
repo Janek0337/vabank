@@ -114,7 +114,7 @@ public class SetUpGry extends JPanel {
                         Gra gra = new Gra(frame, listaGraczy, dbmgng, DBFilePath, tablica);
                         frame.addToFrame(gra, "gra");
                         bazaDanych = null;
-                        wybranyPlik.setText("Wybrany plik: ");
+                        wybranyPlik.setText("Brak wybranej bazy pytań: ");
                         wyborTabeli.setVisible(false);
                         zestawNapis.setVisible(false);
 

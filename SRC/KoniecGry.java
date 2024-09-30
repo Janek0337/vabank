@@ -21,10 +21,6 @@ public class KoniecGry extends JPanel {
         YPanel.setLayout(new BoxLayout(YPanel, BoxLayout.Y_AXIS));
 
         leaderboard.sortDefaultListModel(listaGraczy);
-        for(int i = 0; i < listaGraczy.size(); i++){
-            System.out.println(listaGraczy.get(i).getNazwa() + " " + listaGraczy.get(i).getWynik());
-        }
-
         JLabel listaWynikow = new JLabel();
         String tekst = "<html><font size = '7'>Koniec gry</font><br><br><br><font size = '5'>Wyniki:</font><br><ol>";
         for(int i = 0; i < listaGraczy.size(); i++){

@@ -1,10 +1,8 @@
 package src;
 
 import javax.swing.*;
-
-import org.sqlite.date.DateFormatUtils;
-
 import java.util.*;
+
 public class leaderboard extends JList<String> {
     private DefaultListModel<String> lista;
     private DefaultListModel<Gracz> listaG;
