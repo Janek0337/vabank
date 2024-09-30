@@ -1,4 +1,5 @@
 package src;
+
 import javax.swing.*;
 import java.io.*;
 import java.sql.SQLException;
@@ -50,12 +51,10 @@ public class SetUpGry extends JPanel {
         listaGraczyWidok.setVisibleRowCount(10);
         napisNaGorze.setHorizontalAlignment(SwingConstants.CENTER);
         frame.makeButton(adminButton, "adminButton", getForeground(), getBackground(),14);
-
         zestawNapis.setVisible(false);
         wyborTabeli.setVisible(false);
-
-;
         wybranyPlik.setText("Brak wybranej bazy pytań");
+
         // listenerzy
 
         dodaj.addActionListener(
@@ -114,6 +113,11 @@ public class SetUpGry extends JPanel {
                         napisInfo.setVisible(false);
                         Gra gra = new Gra(frame, listaGraczy, dbmgng, DBFilePath, tablica);
                         frame.addToFrame(gra, "gra");
+                        bazaDanych = null;
+                        wybranyPlik.setText("Wybrany plik: ");
+                        wyborTabeli.setVisible(false);
+                        zestawNapis.setVisible(false);
+
                         frame.showPanel("gra");
                     }
                 }

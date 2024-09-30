@@ -1,5 +1,5 @@
 package src;
-public class Gracz {
+public class Gracz implements Comparable<Gracz> {
     private String nazwa;
     private int wynik;
     
@@ -37,5 +37,9 @@ public class Gracz {
 
     public String toString(){
         return this.nazwa;
+    }
+
+    public int compareTo(Gracz g) {
+        return (-1) * Integer.compare(this.getWynik(), g.getWynik());
     }
 }

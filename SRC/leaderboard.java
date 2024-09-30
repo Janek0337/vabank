@@ -1,6 +1,10 @@
 package src;
 
 import javax.swing.*;
+
+import org.sqlite.date.DateFormatUtils;
+
+import java.util.*;
 public class leaderboard extends JList<String> {
     private DefaultListModel<String> lista;
     private DefaultListModel<Gracz> listaG;
@@ -39,6 +43,20 @@ public class leaderboard extends JList<String> {
                 wstaw += " " + listaG.get(i).getWynik();
             }
             lista.addElement(wstaw);
+        }
+    }
+
+    public static void sortDefaultListModel(DefaultListModel<Gracz> l){
+        ArrayList<Gracz> lg = new ArrayList<>();
+        for(int i = 0; i < l.size(); i++){
+            lg.add(l.get(i));
+        }
+
+        Collections.sort(lg);
+        l.clear();
+
+        for(int i = 0; i < lg.size(); i++){
+            l.addElement(lg.get(i));
         }
     }
 }

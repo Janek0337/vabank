@@ -115,7 +115,9 @@ public class Gra extends JPanel {
         zakoncz.addActionListener(
             new ActionListener() {
                 public void actionPerformed(ActionEvent e){
-                    
+                    KoniecGry koniecGry = new KoniecGry(frame, leaderboard);
+                    frame.addToFrame(koniecGry, "koniec gry");
+                    frame.showPanel("koniec gry");
                 }
             }
         );
