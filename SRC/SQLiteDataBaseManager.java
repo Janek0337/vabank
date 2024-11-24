@@ -3,7 +3,7 @@ package src;
 import java.sql.*;
 import java.util.*;
 
-public class DBManager { 
+public class SQLiteDataBaseManager { 
 
     public ArrayList<ArrayList<Pytanie>> getGridPytan(String DBFilePath, String nazwaTabeli){
         ArrayList<ArrayList<Pytanie>> gridPytan = new ArrayList<ArrayList<Pytanie>>();

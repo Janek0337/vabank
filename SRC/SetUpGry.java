@@ -29,9 +29,11 @@ public class SetUpGry extends JPanel {
     private JComboBox<String> wyborTabeli = new JComboBox<String>();
     private ArrayList<String> tabele;
     private File bazaDanych = null;
-    private DBManager dbmgng = new DBManager();
+    private SQLiteDataBaseManager dbmgng = new SQLiteDataBaseManager();
     private JLabel zestawNapis = new JLabel("Wybierz zestaw pytań:");
     private JLabel wybranyPlik = new JLabel("Wybrany plik: ");
+    private ArrayList<ArrayList<Pytanie>> listaPytan;
+    private String fileFormat = "";
     
     public SetUpGry(Frame frame){
         napisInfo.setVisible(false);
@@ -105,19 +107,27 @@ public class SetUpGry extends JPanel {
                         napisInfo.setText("Wybierz bazę danych z pytaniami");
                         napisInfo.setVisible(true);
                     }
-                    else if (wyborTabeli.getSelectedIndex() == -1){
+                    else if (fileFormat.endsWith(".db") && wyborTabeli.getSelectedIndex() == -1){
                         napisInfo.setText("Brak odpowiednich zestawów w danej bazie");
                         napisInfo.setVisible(true);
                     }
                     else{
                         napisInfo.setVisible(false);
-                        Gra gra = new Gra(frame, listaGraczy, dbmgng, DBFilePath, tablica);
-                        frame.addToFrame(gra, "gra");
                         bazaDanych = null;
+                        
+                        if(fileFormat.endsWith(".db")){
+                            listaPytan = dbmgng.getGridPytan(DBFilePath, tablica);
+                        }
+                        else if(fileFormat.endsWith(".csv")){
+                            CsvManager cm = new CsvManager();
+                            listaPytan = cm.getGridPytan(DBFilePath, 6, 6);
+                        }
+
                         wybranyPlik.setText("Brak wybranej bazy pytań: ");
                         wyborTabeli.setVisible(false);
                         zestawNapis.setVisible(false);
-
+                        Gra gra = new Gra(frame, listaGraczy, listaPytan, DBFilePath, tablica);
+                        frame.addToFrame(gra, "gra");
                         frame.showPanel("gra");
                     }
                 }
@@ -153,28 +163,34 @@ public class SetUpGry extends JPanel {
                         DBFilePath = bazaDanych.getAbsolutePath();
                         wybranyPlik.setVisible(true);
                         wybranyPlik.setText("Wybrany plik: \"" + bazaDanych.getName() + "\"");
-                        
-                        if(!bazaDanych.getName().endsWith(".db")){
+                        fileFormat = bazaDanych.getName();
+                        if(!(fileFormat.endsWith(".db") || fileFormat.endsWith(".csv") )){
                             napisInfo.setVisible(true);
-                            napisInfo.setText("Zły format pliku; oczekiwany \".db\"");
+                            napisInfo.setText("Zły format pliku; oczekiwany \".db\" lub \".csv\"");
                         }
                         else{
-                            zestawNapis.setVisible(true);
-                            wyborTabeli.setVisible(true);
-                            try{
-                            tabele = dbmgng.getCorrectTableNames(DBFilePath);
-                            String[] tabelki = new String[tabele.size()];
-                            for(int i = 0; i < tabele.size(); i++){
-                                tabelki[i] = tabele.get(i);
-                            }
-                            
-                            for(String el : tabelki){
-                                wyborTabeli.addItem(el);
-                            }
+                            if(fileFormat.endsWith(".db")){
+                                zestawNapis.setVisible(true);
+                                wyborTabeli.setVisible(true);
+                                try{
+                                tabele = dbmgng.getCorrectTableNames(DBFilePath);
+                                String[] tabelki = new String[tabele.size()];
+                                for(int i = 0; i < tabele.size(); i++){
+                                    tabelki[i] = tabele.get(i);
+                                }
+                                
+                                for(String el : tabelki){
+                                    wyborTabeli.addItem(el);
+                                }
 
-                            } catch (SQLException ex){
-                                ex.printStackTrace();
-                                frame.showPanel("menu główne");
+                                } catch (SQLException ex){
+                                    ex.printStackTrace();
+                                    frame.showPanel("menu główne");
+                                }
+                            }
+                            else if (fileFormat.endsWith(".csv")){
+                                zestawNapis.setVisible(false);
+                                wyborTabeli.setVisible(false);
                             }
                         }
                     }

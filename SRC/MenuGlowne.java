@@ -11,9 +11,10 @@ public class MenuGlowne extends JPanel {
     MenuGlowne(Frame frame){
         JButton nowaGra = new JButton();
         JButton zamknij = new JButton();
+        JButton kreator = new JButton();
         frame.makeButton(nowaGra, "Nowa gra", Color.yellow, buttonColor,14);
         frame.makeButton(zamknij, "Wyjście", Color.yellow, buttonColor,14);
-
+        frame.makeButton(kreator, "Kreator", Color.YELLOW, buttonColor, 14);
 
         // ustawienie layoutu
         
@@ -26,13 +27,15 @@ public class MenuGlowne extends JPanel {
             layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
                     .addComponent(nowaGra)
-                    .addComponent(zamknij))
+                    .addComponent(zamknij)
+                    .addComponent(kreator))
         );
 
         layout.setVerticalGroup(
             layout.createSequentialGroup()
                 .addComponent(nowaGra)
                 .addComponent(zamknij)
+                .addComponent(kreator)
         );
 
         // słuchacze przycisków
@@ -46,7 +49,21 @@ public class MenuGlowne extends JPanel {
         );
 
         zamknij.addActionListener(
-            (e) -> System.exit(0)
+            new ActionListener() {
+                public void actionPerformed(ActionEvent e){
+                    System.exit(0);
+                }   
+            }
+        );
+
+        kreator.addActionListener(
+            new ActionListener(){
+                public void actionPerformed(ActionEvent e){
+                    KreatorSetUp kreatorSetUp = new KreatorSetUp(frame);
+                    frame.addToFrame(kreatorSetUp, "kreator setup");
+                    frame.showPanel("kreator setup");
+                }
+            }
         );
 
         this.setVisible(true);

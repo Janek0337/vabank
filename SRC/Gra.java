@@ -7,16 +7,17 @@ import java.awt.event.*;
 
 
 public class Gra extends JPanel {
-    ArrayList<ArrayList<Pytanie>> pytania;
+    private ArrayList<ArrayList<Pytanie>> pytania;
     private leaderboard prawyLeaderboard;
 
-    public Gra(Frame frame, DefaultListModel<Gracz> leaderboard, DBManager db, String FilePath, String nazwaTablicy){
+    public Gra(Frame frame, DefaultListModel<Gracz> leaderboard, ArrayList<ArrayList<Pytanie>> pytania, String FilePath, String nazwaTablicy){
         JPanel srodek = new JPanel();
         JButton odblokujPyt = new JButton();
         JButton zakoncz = new JButton();
         BiHashMap<Pytanie, JButton> pytanieGuzik = new BiHashMap<Pytanie, JButton>();
         this.prawyLeaderboard = new leaderboard(leaderboard, true);
-        this.pytania = db.getGridPytan(FilePath, nazwaTablicy);
+        //this.pytania = db.getGridPytan(FilePath, nazwaTablicy);
+        this.pytania = pytania;
         JButton adminButton2 = new JButton("admin2");
         this.add(adminButton2,BorderLayout.SOUTH);
         frame.makeButton(odblokujPyt, "Odblokuj pytania", getForeground(), getBackground(),14);
